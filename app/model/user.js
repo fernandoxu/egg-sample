@@ -2,12 +2,12 @@
 
 const users = [
   {
-    userName: '名字1',
+    username: 'xls',
     password: '123456',
     id: 1,
   },
   {
-    userName: '名字2',
+    username: '名字2',
     password: '123456',
     id: 2,
   },
@@ -34,6 +34,11 @@ class UserModel {
       p => username === p.username && password === p.password
     );
     return user;
+  }
+
+  async isUserIdValid(userId) {
+    const user = await this.getOneById(userId);
+    return !!user;
   }
 }
 
