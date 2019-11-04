@@ -1,19 +1,19 @@
 'use strict';
 
 const { Controller } = require('egg');
-
-const products = [];
-
+const ProductModel = require('../model/product');
+const productModel = new ProductModel();
 class productController extends Controller {
   async index() {
     const { ctx } = this;
+    const products = await productModel.list();
     ctx.body = { products };
   }
 
   async getOneById() {
     const { ctx } = this;
     const { id } = ctx.query;
-    const product = products.find(p => +id === p.id);
+    const product = await productModel.getOneById(id);
     ctx.body = {
       product,
     };
@@ -22,11 +22,9 @@ class productController extends Controller {
   async addOne() {
     const { ctx } = this;
     const { product } = ctx.request.body;
-    if (product) {
-      products.push(product);
-    }
+    await productModel.addOne(product);
     ctx.body = {
-      products,
+      product,
     };
   }
 }
